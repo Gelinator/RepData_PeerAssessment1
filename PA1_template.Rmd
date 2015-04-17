@@ -8,18 +8,67 @@ output:
 
 ## Loading and preprocessing the data
 
+```{r, echo=TRUE}
+data <- read.csv("activity.csv")
 
+data$date <- as.Date(data$date)
+
+```
 
 ## What is mean total number of steps taken per day?
 
+```{r, echo=TRUE}
 
+total <- ddply(data,"date",summarize, sum = sum(steps))
+
+
+plot(total$date,total$sum, type="h")
+
+#average
+mean(total$sum,na.rm=TRUE)
+#median
+median(total$sum,na.rm=TRUE)
+````
 
 ## What is the average daily activity pattern?
 
+```{r, echo=TRUE}
+inter <- ddply(data,"interval",summarize, TotalSteps = sum(steps,na.rm=TRUE))
 
+plot(inter$interval,inter$TotalSteps, type="l")
+````
 
 ## Imputing missing values
 
+```{r, echo=TRUE}
+# 1. Report total number of NAs 
+TotalNAs <- sum(is.na(data))
 
+# 2. Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
+
+boom <- ddply(data, .(interval), transform, steps=ifelse(is.na(steps), median(steps, na.rm=TRUE), steps))
+
+blah <- ddply(boom,"date",summarize, sum = sum(steps))
+plot(blah$date,blah$sum, type="h")
+
+#average
+mean(blah$sum,na.rm=TRUE)
+#median
+median(blah$sum,na.rm=TRUE)
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+```{r}
+DayType <- data
+DayType$days <- weekdays(DayType$date)
+DayType$daytype[DayType$days == "Monday" | DayType$days == "Tuesday" | DayType$days == "Wednesday" | DayType$days == "Thursday" | DayType$days == "Friday"] <- "Weekday"
+DayType$daytype[DayType$days == "Saturday" | DayType$days == "Sunday"] <- "Weekend"
+
+
+IntervalDay <- ddply(DayType,.(daytype,interval),summarize, MeanSteps = mean(steps,na.rm=TRUE))
+
+qplot(interval,MeanSteps, data = IntervalDay, colour = days)
+qplot(interval,MeanSteps, data = IntervalDay, colour = days, geom = "smooth", method="auto")
+
+```
