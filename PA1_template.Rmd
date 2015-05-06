@@ -15,7 +15,7 @@ a. Report total number of NAs
 b. Devise a strategy for filling in all of the missing values in the    dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
 4. Are there differences in activity patterns between weekdays and weekends?  
 
-The following is a step by step 
+The following is a step by step processing codes, as well as their results when applied to the activity data.
 
 ## Loading and preprocessing the data
 
@@ -95,7 +95,6 @@ DayType$daytype[DayType$days == "Saturday" | DayType$days == "Sunday"] <- "Weeke
 
 IntervalDay <- ddply(DayType,.(daytype,interval),summarize, MeanSteps = mean(steps,na.rm=TRUE))
 
-qplot(interval,MeanSteps, data = IntervalDay, colour = daytype)
-qplot(interval,MeanSteps, data = IntervalDay, colour = daytype, geom = "smooth", method="auto")
+qplot(interval,MeanSteps, data = IntervalDay, colour = daytype, geom="smooth")
 
 ```
