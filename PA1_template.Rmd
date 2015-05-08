@@ -118,7 +118,7 @@ print(paste("Mean:",mean(cleaningUp$sum,na.rm=TRUE)))
 #median
 print(paste("Median:",median(cleaningUp$sum,na.rm=TRUE)))
 
-plot(cleaningUp$date,cleaningUp$sum, type="h")
+plot(cleaningUp$date,cleaningUp$sum, type="h", xlab="Period", ylab="Total number of steps")
 ```
 
 As it can be observed, the graph shows fewer blank dates, but is nevertheless similar to the original. The mean and median for both dataset do differ though, and both are lower than their earlier counterpart.
