@@ -73,7 +73,7 @@ print(paste("Mean:",mean(total$sum,na.rm=TRUE)))
 # Returning the median
 print(paste("Median:",median(total$sum,na.rm=TRUE)))
 # Building histogram from the summarized data
-plot(total$date,total$sum, type="h",xlab="Period", ylab="Total number of steps")
+plot(total$date,total$sum, type="h",xlab="Period", ylab="Total number of steps", main = "Total Number of Steps over Observation Period")
 ````
   
 As the graphic shows, mid-October and late November were the most active days in this observation period.  
@@ -86,8 +86,8 @@ As the graphic shows, mid-October and late November were the most active days in
 inter <- ddply(data,"interval",summarize, AverageSteps = mean(steps,na.rm=TRUE))
 
 #Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
-plot(inter$interval,inter$AverageSteps, type="l",xlab="Interval", ylab="Average number of steps")
-````
+plot(inter$interval,inter$AverageSteps, type="l",xlab="Interval", ylab="Average number of steps", main = "Average Number of Steps per 5-minutes Time Interval")
+```
 
 As the graph shows, the largest average number of steps happen in the lower intervals, or earlier in the day, with three distinct peaks later in the day.
 
@@ -118,7 +118,7 @@ print(paste("Mean:",mean(cleaningUp$sum,na.rm=TRUE)))
 #median
 print(paste("Median:",median(cleaningUp$sum,na.rm=TRUE)))
 
-plot(cleaningUp$date,cleaningUp$sum, type="h", xlab="Period", ylab="Total number of steps")
+plot(cleaningUp$date,cleaningUp$sum, type="h", xlab="Period", ylab="Total number of steps", main = "Total Number of Steps over Observation Period (with filling strategy)")
 ```
 
 As it can be observed, the graph shows fewer blank dates, but is nevertheless similar to the original. The mean and median for both dataset do differ though, and both are lower than their earlier counterpart.
@@ -143,7 +143,7 @@ DayType$daytype[DayType$days == "Saturday" | DayType$days == "Sunday"] <- "Weeke
 IntervalDay <- ddply(DayType,.(daytype,interval),summarize, MeanSteps = mean(steps,na.rm=TRUE))
 
 # Plotting it all out as a panel plot.
-qplot(interval,MeanSteps, data = IntervalDay, geom="line",ylab="Average Number of Steps",xlab = "Time Intervals") + facet_wrap(~daytype,nrow=2)
+qplot(interval,MeanSteps, data = IntervalDay, geom="line",ylab="Average Number of Steps",xlab = "Time Intervals", main="Average Number of Steps per 5-minutes Time Interval, divided by Day Type") + facet_wrap(~daytype,nrow=2)
 ```
 
 The top panel shows the average number of steps by 5-minutes intervals observed during weekdays, while the bottom one displays the same measures but for weekends.  
