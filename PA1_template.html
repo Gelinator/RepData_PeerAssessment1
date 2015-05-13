@@ -159,7 +159,7 @@ print(paste(&quot;Total number of NAs:&quot;,sum(is.na(data))))</code></pre>
 <pre><code>## [1] &quot;Total number of NAs: 2304&quot;</code></pre>
 <pre class="r"><code># 2. Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
 
-## The strategy adopted was to replace the missing values by the median for their respective time interval.
+## The strategy adopted was to replace the missing values by the median for their respective time interval. The strategy applied by the ddply function is to check if a row in column steps is NA (using is.na), if true, it returns the median of the column steps, else it returns the actual value in steps.
 
 filled &lt;- ddply(data, .(interval), transform, steps=ifelse(is.na(steps), median(steps, na.rm=TRUE), steps))
 
